@@ -29,7 +29,7 @@
     <div class="container">
       <br>
       <br>
-      <h1>台北捷運到站紀錄</h1>
+      <h1>台北親愛的公園們</h1>
     </div>
   </div>
 
@@ -65,34 +65,33 @@
     </div>
     <hr>
     <footer>
-      <p>&copy;  NCCU STAT - 102304052 蔡宛廷</p>
+      <p>&copy;  102303062 李杰</p>
     </footer>
   </div> <!-- /container -->
 
-  </body>
+ </body>
   <script type="text/javascript">
     $(document).ready(function() {
       getData(function(err, data) {
         if(err) {
           console.log(err);
-        }
-        else {
-          var JSONstationList = data.result.results;
-          var HTMLstationList = JSONstationList.map(function(station) {
-            var HTMLString = "<h2>"+"進站："+station.Station+"</h2>";
-            var attributes = "";
-            for (var key in station) {
-              if(key!="_id"){
-                attributes += "<li class='list-group-item'>" + key + "：" + station[key] + "</li>";
+        } else {
+          var parkList = data.result.results;
+          var HTMLanParkList = parkList.map(function(park) {
+            var HTMLString = "<div class='col-md-4 drop-"+(Math.round(Math.random()*10000%3)+1)+"'><h2>"+park.ParkName+"</h2><img class='img-thumbnail' src='"+park.Image+"'><p><ul class='list-group'>";
+            var items = "";
+            for (var key in park) {
+              if(key!="_id" && key!="Image") {
+                items=items+"<li class='list-group-item'>"+key+":"+park[key]+"</li>";
               }
             }
-            var HTMLString = HTMLString + attributes;
+            var HTMLString = HTMLString+items+"</ul></p><div>";
             return HTMLString;
           });
-          HTMLstationList.forEach(function(html) {
+          HTMLanParkList.forEach(function(html) {
             $(html).appendTo("#content");
           });
-          $('.sk-cube-grid').css('display','none');
+          $('.sk-cube-grid').css('display', 'none');
         }
       });
     });
